@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Real Choice — Premium Groceries & Accessories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#059669;--green-dark:#047857;--green-light:#d1fae5;
+  --amber:#f59e0b;--amber-light:#fef3c7;
+  --bg:#f8fafc;--card:#ffffff;--text:#0f172a;--muted:#64748b;
+  --border:#e2e8f0;--shadow:0 4px 24px rgba(0,0,0,.08);
+  --radius:16px;--nav-h:64px;--bottom-nav-h:64px;
+}
+.dark{
+  --bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--muted:#94a3b8;
+  --border:#334155;--shadow:0 4px 24px rgba(0,0,0,.4);
+  --green-light:#064e3b;--amber-light:#451a03;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+a{text-decoration:none;color:inherit}
+img{display:block;width:100%;object-fit:cover}
+button{cursor:pointer;border:none;outline:none;font-family:inherit}
+input,select{font-family:inherit;outline:none}
+
+/* PAGES */
+.page{display:none;min-height:100vh;animation:fadeIn .35s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* TOP NAV */
+.top-nav{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--border);height:var(--nav-h);display:flex;align-items:center;padding:0 20px;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.2rem;color:var(--green)}
+.nav-logo svg{width:32px;height:32px;background:var(--green);border-radius:10px;padding:6px;color:#fff}
+.nav-search{flex:1;position:relative;max-width:420px;margin:0 auto}
+.nav-search input{width:100%;padding:9px 16px 9px 40px;border:1.5px solid var(--border);border-radius:50px;background:var(--bg);color:var(--text);font-size:.9rem;transition:border .2s}
+.nav-search input:focus{border-color:var(--green)}
+.nav-search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.4;width:16px;height:16px}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-btn{background:none;border:none;padding:8px;border-radius:10px;cursor:pointer;color:var(--muted);position:relative;transition:background .2s}
+.nav-btn:hover{background:var(--bg);color:var(--text)}
+.nav-btn svg{width:20px;height:20px}
+.cart-badge{position:absolute;top:4px;right:4px;background:var(--green);color:#fff;font-size:.65rem;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--card);border-top:1px solid var(--border);height:var(--bottom-nav-h);padding:0 8px}
+.bottom-nav-inner{display:flex;align-items:center;justify-content:space-around;height:100%}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;border-radius:12px;cursor:pointer;color:var(--muted);font-size:.7rem;font-weight:500;transition:color .2s;background:none;border:none}
+.bn-item.active{color:var(--green)}
+.bn-item svg{width:22px;height:22px}
+
+/* HERO SLIDER */
+.hero-slider{position:relative;height:320px;overflow:hidden;border-radius:var(--radius);margin:20px}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;background-size:cover;background-position:center}
+.slide.active{opacity:1}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.15))}
+.slide-content{position:absolute;bottom:32px;left:32px;color:#fff}
+.slide-content h2{font-size:1.9rem;font-weight:800;line-height:1.2;margin-bottom:6px}
+.slide-content p{opacity:.9;font-size:1rem}
+.slide-btn{margin-top:14px;background:var(--green);color:#fff;padding:10px 22px;border-radius:50px;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:background .2s}
+.slide-btn:hover{background:var(--green-dark)}
+.slider-dots{position:absolute;bottom:16px;right:20px;display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:background .3s,width .3s}
+.dot.active{background:#fff;width:24px;border-radius:4px}
+
+/* SECTION */
+.section{padding:0 20px 28px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:1.1rem;font-weight:700}
+.see-all{color:var(--green);font-size:.85rem;font-weight:600;cursor:pointer;background:none;border:none}
+
+/* CATEGORY CARDS */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cat-card{background:var(--card);border-radius:var(--radius);padding:16px 12px;text-align:center;cursor:pointer;border:1.5px solid var(--border);transition:transform .2s,box-shadow .2s,border-color .2s;box-shadow:var(--shadow)}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(5,150,105,.15);border-color:var(--green)}
+.cat-img{width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 10px}
+.cat-name{font-size:.85rem;font-weight:600}
+.cat-count{font-size:.75rem;color:var(--muted);margin-top:2px}
+
+/* PRODUCT CARDS */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.product-card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(5,150,105,.18)}
+.product-img-wrap{height:140px;overflow:hidden;position:relative}
+.product-img-wrap img{height:100%;width:100%;object-fit:cover;transition:transform .3s}
+.product-card:hover .product-img-wrap img{transform:scale(1.07)}
+.product-badge{position:absolute;top:10px;left:10px;background:var(--amber);color:#fff;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:50px}
+.product-info{padding:12px}
+.product-name{font-size:.88rem;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-weight{font-size:.75rem;color:var(--muted);margin-bottom:8px}
+.product-footer{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:.95rem;font-weight:700;color:var(--green)}
+.add-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s}
+.add-btn:hover{background:var(--green-dark)}
+.add-btn:active{transform:scale(.94)}
+.qty-ctrl{display:flex;align-items:center;gap:6px}
+.qty-btn{width:26px;height:26px;border-radius:6px;background:var(--green-light);color:var(--green-dark);font-weight:700;font-size:1rem;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qty-btn:hover{background:var(--green);color:#fff}
+.qty-num{font-size:.9rem;font-weight:700;min-width:20px;text-align:center}
+
+/* SUBCATEGORY TABS */
+.tab-bar{display:flex;gap:8px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none;margin-bottom:20px}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:8px 18px;border-radius:50px;border:1.5px solid var(--border);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;background:var(--card);color:var(--muted);transition:all .2s}
+.tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* PAGE HEADER */
+.page-header{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;padding:28px 20px 24px;margin-bottom:20px}
+.page-header h1{font-size:1.6rem;font-weight:800;margin-bottom:4px}
+.page-header p{opacity:.85;font-size:.95rem}
+
+/* LOGIN PAGE */
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf4 30%,#fef3c7 70%,#fff7ed 100%);padding:20px}
+.login-animated-bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+.login-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:blobMove 8s ease-in-out infinite alternate}
+.blob1{width:500px;height:500px;background:var(--green);top:-100px;left:-100px;animation-delay:0s}
+.blob2{width:400px;height:400px;background:var(--amber);bottom:-100px;right:-100px;animation-delay:2s}
+.blob3{width:300px;height:300px;background:#3b82f6;top:40%;left:40%;animation-delay:4s}
+@keyframes blobMove{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,30px) scale(1.1)}}
+.login-card{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-radius:24px;padding:36px;width:100%;max-width:420px;box-shadow:0 24px 60px rgba(0,0,0,.12);position:relative;z-index:1;border:1.5px solid rgba(255,255,255,.8)}
+.login-logo{text-align:center;margin-bottom:24px}
+.login-logo-icon{width:64px;height:64px;background:var(--green);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.login-logo-icon svg{width:36px;height:36px;color:#fff}
+.login-logo h1{font-size:1.8rem;font-weight:800;color:var(--green)}
+.login-logo p{color:var(--muted);font-size:.9rem;margin-top:4px}
+.tab-switch{display:flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:24px}
+.tab-switch button{flex:1;padding:10px;border-radius:8px;font-weight:600;font-size:.9rem;background:none;color:var(--muted);transition:all .2s}
+.tab-switch button.active{background:#fff;color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.form-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:.95rem;background:#fff;color:var(--text);transition:border .2s}
+.form-input:focus{border-color:var(--green)}
+.forgot-link{display:block;text-align:right;color:var(--green);font-size:.82rem;font-weight:600;cursor:pointer;margin-top:-8px;margin-bottom:16px;background:none;border:none}
+.primary-btn{width:100%;padding:14px;background:var(--green);color:#fff;border-radius:12px;font-size:1rem;font-weight:700;border:none;cursor:pointer;transition:background .2s,transform .1s}
+.primary-btn:hover{background:var(--green-dark)}
+.primary-btn:active{transform:scale(.98)}
+.divider{text-align:center;color:var(--muted);font-size:.82rem;margin:16px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)}
+.divider::before{left:0}.divider::after{right:0}
+
+/* OTP PAGE */
+.otp-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ecfdf5,#fef3c7);padding:20px}
+.otp-card{background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border-radius:24px;padding:40px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.12);position:relative;z-index:1}
+.otp-icon{width:72px;height:72px;background:var(--green-light);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.otp-icon svg{width:40px;height:40px;color:var(--green)}
+.otp-inputs{display:flex;gap:10px;justify-content:center;margin:24px 0}
+.otp-box{width:52px;height:60px;border:2px solid var(--border);border-radius:12px;text-align:center;font-size:1.5rem;font-weight:700;background:#fff;color:var(--text);transition:border .2s}
+.otp-box:focus{border-color:var(--green);outline:none}
+.otp-timer{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.otp-resend{color:var(--green);font-weight:600;cursor:pointer;background:none;border:none;font-size:.9rem}
+
+/* CART PAGE */
+.cart-empty{text-align:center;padding:60px 20px}
+.cart-empty svg{width:80px;height:80px;color:var(--muted);margin:0 auto 16px;opacity:.4}
+.cart-item{display:flex;gap:14px;align-items:center;padding:16px;background:var(--card);border-radius:var(--radius);border:1.5px solid var(--border);margin-bottom:12px}
+.cart-item-img{width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:600;font-size:.95rem;margin-bottom:2px}
+.cart-item-weight{color:var(--muted);font-size:.8rem}
+.cart-item-price{color:var(--green);font-weight:700;font-size:.95rem;margin-top:4px}
+.cart-item-remove{color:var(--muted);cursor:pointer;background:none;border:none;padding:4px;border-radius:8px;transition:color .2s}
+.cart-item-remove:hover{color:#ef4444}
+.order-summary{background:var(--card);border-radius:var(--radius);border:1.5px solid var(--border);padding:20px;margin:20px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.92rem;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border:none;font-weight:700;font-size:1rem}
+.summary-row.total{color:var(--green)}
+.promo-input{display:flex;gap:8px;margin:0 20px 20px}
+.promo-input input{flex:1;padding:11px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:.9rem;background:var(--bg);color:var(--text)}
+.promo-input button{padding:11px 20px;background:var(--green);color:#fff;border-radius:12px;font-weight:600;font-size:.9rem;border:none;cursor:pointer}
+.checkout-btn{display:block;width:calc(100% - 40px);margin:0 20px 20px;padding:16px;background:var(--green);color:#fff;border-radius:14px;font-size:1rem;font-weight:700;border:none;cursor:pointer;transition:background .2s}
+.checkout-btn:hover{background:var(--green-dark)}
+
+/* SETTINGS */
+.settings-section{background:var(--card);border-radius:var(--radius);border:1.5px solid var(--border);margin:0 20px 16px;overflow:hidden}
+.settings-section-title{padding:14px 20px 10px;font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border:none}
+.settings-row-label{font-size:.92rem;font-weight:500}
+.settings-row-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+.toggle{position:relative;width:46px;height:26px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:50px;cursor:pointer;transition:background .3s}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-slider{background:var(--green)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+.settings-select{padding:7px 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:.88rem;cursor:pointer}
+
+/* PAY PAGE */
+.pay-tabs{display:flex;background:var(--bg);border-radius:14px;padding:4px;margin:0 20px 24px}
+.pay-tab{flex:1;padding:10px;border-radius:10px;font-weight:600;font-size:.85rem;background:none;color:var(--muted);border:none;cursor:pointer;transition:all .2s}
+.pay-tab.active{background:var(--card);color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.balance-card{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border-radius:20px;padding:28px;margin:0 20px 20px;text-align:center}
+.balance-amount{font-size:2.4rem;font-weight:800;margin:8px 0}
+.balance-label{opacity:.8;font-size:.9rem}
+.quick-amounts{display:flex;gap:10px;margin:0 20px 20px;flex-wrap:wrap}
+.quick-amt{flex:1;min-width:80px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:var(--card);font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;text-align:center}
+.quick-amt:hover{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.credit-card-preview{width:calc(100% - 40px);margin:0 auto 24px;height:200px;border-radius:20px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);position:relative;overflow:hidden;padding:28px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.card-chip{width:40px;height:30px;background:linear-gradient(135deg,#ffd700,#ffa500);border-radius:6px}
+.card-number-display{color:rgba(255,255,255,.9);font-size:1.1rem;font-weight:600;letter-spacing:.15em}
+.card-holder-display{color:rgba(255,255,255,.7);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+.card-expiry-display{color:rgba(255,255,255,.7);font-size:.8rem}
+.upi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:0 20px}
+.upi-app{background:var(--card);border-radius:var(--radius);border:1.5px solid var(--border);padding:20px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.upi-app:hover{border-color:var(--green);transform:translateY(-2px)}
+.upi-logo{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.4rem;font-weight:800}
+.upi-name{font-weight:600;font-size:.9rem}
+.upi-id{color:var(--muted);font-size:.75rem;margin-top:2px}
+
+/* OFFERS */
+.offer-hero{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:28px 20px;margin-bottom:20px;text-align:center}
+.offer-hero h2{font-size:2rem;font-weight:800;margin-bottom:4px}
+.offer-hero p{opacity:.85;font-size:1rem;margin-bottom:16px}
+.countdown{display:flex;gap:12px;justify-content:center}
+.cd-block{background:rgba(255,255,255,.15);border-radius:12px;padding:12px 16px;text-align:center;min-width:60px}
+.cd-num{font-size:1.6rem;font-weight:800;display:block}
+.cd-label{font-size:.7rem;opacity:.8}
+.offer-badge{position:absolute;top:10px;right:10px;background:#dc2626;color:#fff;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:50px}
+.original-price{text-decoration:line-through;color:var(--muted);font-size:.8rem;margin-right:6px}
+
+/* SUCCESS MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border-radius:24px;padding:40px;text-align:center;max-width:340px;width:90%;animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.success-circle{width:80px;height:80px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.success-circle svg{width:44px;height:44px;color:var(--green)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(100px);background:#0f172a;color:#fff;padding:12px 24px;border-radius:50px;font-size:.88rem;font-weight:500;z-index:999;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* PROFILE AVATAR */
+.profile-banner{background:linear-gradient(135deg,var(--green),var(--green-dark));padding:32px 20px;text-align:center;color:#fff;margin-bottom:20px}
+.avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.8rem;font-weight:700;border:3px solid rgba(255,255,255,.4)}
+.profile-name{font-size:1.2rem;font-weight:700}
+.profile-email{opacity:.85;font-size:.88rem;margin-top:4px}
+
+/* FORGOT */
+.back-link{color:var(--green);font-size:.88rem;font-weight:600;cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:4px;margin-bottom:20px}
+
+/* HORIZONTAL SCROLL */
+.h-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 20px 8px;scrollbar-width:none}
+.h-scroll::-webkit-scrollbar{display:none}
+.h-scroll .product-card{min-width:160px;flex-shrink:0}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .bottom-nav{display:block}
+  body{padding-bottom:var(--bottom-nav-h)}
+  .hero-slider{height:240px;margin:12px}
+  .slide-content h2{font-size:1.4rem}
+  .credit-card-preview{width:calc(100% - 40px)}
+}
+@media(max-width:400px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="success-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:8px">Payment Successful!</h3>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:24px">Your order has been placed successfully.</p>
+    <button class="primary-btn" onclick="closeModal()">Back to Home</button>
+  </div>
+</div>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div class="page active" id="page-login">
+  <div class="login-animated-bg">
+    <div class="login-blob blob1"></div>
+    <div class="login-blob blob2"></div>
+    <div class="login-blob blob3"></div>
+  </div>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <h1>Real Choice</h1>
+        <p>Premium Quality, Delivered Fresh</p>
+      </div>
+      <div id="loginForms">
+        <!-- Sign In / Sign Up tabs -->
+        <div class="tab-switch">
+          <button class="active" onclick="switchLoginTab('signin',this)">Sign In</button>
+          <button onclick="switchLoginTab('signup',this)">Sign Up</button>
+        </div>
+        <!-- Sign In Form -->
+        <div id="signinForm">
+          <div class="form-group">
+            <label class="form-label">Email or Phone Number</label>
+            <input class="form-input" id="loginEmail" type="text" placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <button class="forgot-link" onclick="showForgot()">Forgot password?</button>
+            <input class="form-input" id="loginPass" type="password" placeholder="••••••••">
+          </div>
+          <button class="primary-btn" onclick="doLogin()">Sign In</button>
+        </div>
+        <!-- Sign Up Form -->
+        <div id="signupForm" style="display:none">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" id="regName" type="text" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" id="regEmail" type="email" placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" id="regPhone" type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" id="regPass" type="password" placeholder="••••••••">
+          </div>
+          <button class="primary-btn" onclick="doSignup()">Create Account</button>
+        </div>
+        <!-- Forgot Password -->
+        <div id="forgotForm" style="display:none">
+          <button class="back-link" onclick="showSignin()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Sign In
+          </button>
+          <div class="form-group">
+            <label class="form-label">Enter your email to reset password</label>
+            <input class="form-input" type="email" placeholder="name@example.com">
+          </div>
+          <button class="primary-btn" onclick="doReset()">Send Reset Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OTP PAGE ===== -->
+<div class="page" id="page-otp">
+  <div class="login-animated-bg">
+    <div class="login-blob blob1"></div>
+    <div class="login-blob blob2"></div>
+  </div>
+  <div class="otp-page">
+    <div class="otp-card">
+      <div class="otp-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-width="3" stroke-linecap="round"/></svg>
+      </div>
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:8px">Verify Your Account</h2>
+      <p style="color:var(--muted);font-size:.9rem">We sent a 6-digit OTP to your number</p>
+      <div class="otp-inputs">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,0)">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,1)">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,2)">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,3)">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,4)">
+        <input class="otp-box" maxlength="1" type="text" oninput="otpNext(this,5)">
+      </div>
+      <p class="otp-timer">Resend OTP in <span id="otpTimer">30</span>s</p>
+      <button class="primary-btn" onclick="verifyOtp()">Verify OTP</button>
+      <div class="divider" style="margin-top:16px">or</div>
+      <button class="otp-resend" onclick="resendOtp()">Resend OTP</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page" id="page-home">
+  <nav class="top-nav">
+    <div class="nav-logo" onclick="goTo('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Real Choice
+    </div>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search products..." oninput="searchProducts(this.value)" id="homeSearch">
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="goTo('cart')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="nav-btn" onclick="goTo('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Slider -->
+  <div class="hero-slider" id="heroSlider">
+    <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80')">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <h2>Fresh Groceries<br>Delivered Daily</h2>
+        <p>Farm-fresh produce at your doorstep</p>
+        <button class="slide-btn" onclick="goTo('groceries')">Shop Now</button>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&q=80')">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <h2>Premium<br>Accessories</h2>
+        <p>Curated collections just for you</p>
+        <button class="slide-btn" onclick="goTo('accessories')">Explore Now</button>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=80')">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <h2>Beauty &<br>Self-Care</h2>
+        <p>Look and feel your absolute best</p>
+        <button class="slide-btn" onclick="goTo('beauty')">Shop Beauty</button>
+      </div>
+    </div>
+    <div class="slider-dots">
+      <div class="dot active" onclick="goSlide(0)"></div>
+      <div class="dot" onclick="goSlide(1)"></div>
+      <div class="dot" onclick="goSlide(2)"></div>
+    </div>
+  </div>
+
+  <!-- Search Results -->
+  <div id="searchResults" style="display:none;padding:0 20px 20px">
+    <h3 style="font-weight:700;margin-bottom:14px">Search Results</h3>
+    <div class="product-grid" id="searchGrid"></div>
+  </div>
+
+  <!-- Categories -->
+  <div class="section" id="homeContent">
+    <div class="section-header">
+      <span class="section-title">Shop by Category</span>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goTo('groceries')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=200&q=80" alt="Groceries">
+        <div class="cat-name">Groceries</div>
+        <div class="cat-count">200+ items</div>
+      </div>
+      <div class="cat-card" onclick="goTo('accessories')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80" alt="Accessories">
+        <div class="cat-name">Accessories</div>
+        <div class="cat-count">150+ items</div>
+      </div>
+      <div class="cat-card" onclick="goTo('beauty')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&q=80" alt="Beauty">
+        <div class="cat-name">Beauty</div>
+        <div class="cat-count">180+ items</div>
+      </div>
+      <div class="cat-card" onclick="goTo('offers')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=200&q=80" alt="Offers">
+        <div class="cat-name">Offers</div>
+        <div class="cat-count">Hot deals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fresh Arrivals -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Fresh Arrivals</span>
+      <button class="see-all" onclick="goTo('groceries')">See all</button>
+    </div>
+    <div class="h-scroll" id="freshArrivalsGrid"></div>
+  </div>
+
+  <!-- Offers Banner -->
+  <div style="margin:0 20px 28px">
+    <div style="background:linear-gradient(135deg,var(--amber),#d97706);border-radius:var(--radius);padding:24px;color:#fff;cursor:pointer" onclick="goTo('offers')">
+      <div style="font-size:.8rem;font-weight:600;opacity:.9;margin-bottom:4px;letter-spacing:.05em">LIMITED TIME</div>
+      <div style="font-size:1.4rem;font-weight:800;margin-bottom:4px">Mega Sale — Up to 40% Off</div>
+      <div style="opacity:.9;font-size:.9rem">On selected groceries and accessories</div>
+      <button style="margin-top:14px;background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.4);padding:9px 20px;border-radius:50px;font-weight:600;font-size:.85rem;cursor:pointer">View Deals</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GROCERIES PAGE ===== -->
+<div class="page" id="page-groceries">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo">Groceries</div>
+    <div style="flex:1"></div>
+    <button class="nav-btn" onclick="goTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cartBadge2">0</span>
+    </button>
+  </nav>
+  <div class="tab-bar" id="groceryTabs"></div>
+  <div class="section">
+    <div class="product-grid" id="groceryGrid"></div>
+  </div>
+</div>
+
+<!-- ===== ACCESSORIES PAGE ===== -->
+<div class="page" id="page-accessories">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo">Accessories</div>
+    <div style="flex:1"></div>
+    <button class="nav-btn" onclick="goTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cartBadge3">0</span>
+    </button>
+  </nav>
+  <div class="tab-bar" id="accessoryTabs"></div>
+  <div class="section">
+    <div class="product-grid" id="accessoryGrid"></div>
+  </div>
+</div>
+
+<!-- ===== BEAUTY PAGE ===== -->
+<div class="page" id="page-beauty">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo">Beauty</div>
+    <div style="flex:1"></div>
+    <button class="nav-btn" onclick="goTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cartBadge4">0</span>
+    </button>
+  </nav>
+  <div class="tab-bar" id="beautyTabs"></div>
+  <div class="section">
+    <div class="product-grid" id="beautyGrid"></div>
+  </div>
+</div>
+
+<!-- ===== OFFERS PAGE ===== -->
+<div class="page" id="page-offers">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo" style="color:#dc2626">Offers & Deals</div>
+    <div style="flex:1"></div>
+    <button class="nav-btn" onclick="goTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cartBadge5">0</span>
+    </button>
+  </nav>
+  <div class="offer-hero">
+    <h2>Mega Sale</h2>
+    <p>Limited time deals — grab before they're gone!</p>
+    <div class="countdown">
+      <div class="cd-block"><span class="cd-num" id="cd-h">05</span><span class="cd-label">Hours</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-m">23</span><span class="cd-label">Mins</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-s">47</span><span class="cd-label">Secs</span></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="product-grid" id="offersGrid"></div>
+  </div>
+</div>
+
+<!-- ===== CART PAGE ===== -->
+<div class="page" id="page-cart">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo">My Cart</div>
+    <div style="flex:1"></div>
+  </nav>
+  <div id="cartContent" style="padding:20px"></div>
+  <div id="cartSummary"></div>
+</div>
+
+<!-- ===== SETTINGS PAGE ===== -->
+<div class="page" id="page-settings">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('home')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo">Settings</div>
+    <div style="flex:1"></div>
+  </nav>
+  <div class="profile-banner">
+    <div class="avatar" id="userAvatar">JD</div>
+    <div class="profile-name" id="userName">John Doe</div>
+    <div class="profile-email" id="userEmail">john@example.com</div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-title">Appearance</div>
+    <div class="settings-row">
+      <div>
+        <div class="settings-row-label">Dark Mode</div>
+        <div class="settings-row-sub">Switch between light and dark theme</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="darkToggle" onchange="toggleDark(this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-title">Preferences</div>
+    <div class="settings-row">
+      <div>
+        <div class="settings-row-label">Language</div>
+        <div class="settings-row-sub">Choose your preferred language</div>
+      </div>
+      <select class="settings-select" id="langSelect" onchange="saveSetting('lang',this.value)">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="ta">Tamil</option>
+        <option value="te">Telugu</option>
+        <option value="bn">Bengali</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <div>
+        <div class="settings-row-label">Currency</div>
+        <div class="settings-row-sub">Select your currency</div>
+      </div>
+      <select class="settings-select" id="currSelect" onchange="saveSetting('currency',this.value)">
+        <option value="INR">INR (₹)</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+      </select>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-title">Notifications</div>
+    <div class="settings-row">
+      <div><div class="settings-row-label">Order Updates</div></div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-row-label">Offers & Promotions</div></div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-row-label">New Arrivals</div></div>
+      <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+    </div>
+  </div>
+  <div style="padding:0 20px 12px">
+    <button class="primary-btn" onclick="saveAllSettings()">Save Settings</button>
+  </div>
+  <div style="padding:0 20px 32px">
+    <button onclick="logout()" style="width:100%;padding:14px;background:none;color:#ef4444;border:1.5px solid #ef4444;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s">Logout</button>
+  </div>
+</div>
+
+<!-- ===== PAY PAGE ===== -->
+<div class="page" id="page-pay">
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="goTo('cart')" style="margin-right:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="nav-logo" style="color:var(--green)">Real Choice Pay</div>
+    <div style="flex:1"></div>
+  </nav>
+  <div class="pay-tabs">
+    <button class="pay-tab active" onclick="switchPayTab('wallet',this)">Wallet</button>
+    <button class="pay-tab" onclick="switchPayTab('card',this)">Card</button>
+    <button class="pay-tab" onclick="switchPayTab('upi',this)">UPI</button>
+  </div>
+
+  <!-- Wallet -->
+  <div id="payWallet">
+    <div class="balance-card">
+      <div class="balance-label">Real Choice Pay Balance</div>
+      <div class="balance-amount" id="walletBalance">₹ 0.00</div>
+      <div style="opacity:.75;font-size:.82rem;margin-top:4px">Tap below to add money</div>
+    </div>
+    <div style="padding:0 20px 16px">
+      <label class="form-label" style="margin-bottom:8px">Enter Amount</label>
+      <input class="form-input" type="number" placeholder="Enter amount" id="addMoneyInput">
+    </div>
+    <div class="quick-amounts">
+      <div class="quick-amt" onclick="setAmount(100)">₹100</div>
+      <div class="quick-amt" onclick="setAmount(500)">₹500</div>
+      <div class="quick-amt" onclick="setAmount(1000)">₹1,000</div>
+      <div class="quick-amt" onclick="setAmount(2000)">₹2,000</div>
+    </div>
+    <div style="padding:0 20px 20px">
+      <button class="primary-btn" onclick="addMoney()">Add Money</button>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div id="payCard" style="display:none">
+    <div class="credit-card-preview">
+      <div class="card-chip"></div>
+      <div class="card-number-display" id="cardNumDisplay">•••• •••• •••• ••••</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div>
+          <div class="card-holder-display" id="cardNameDisplay">Cardholder Name</div>
+          <div class="card-expiry-display" id="cardExpDisplay">MM/YY</div>
+        </div>
+        <div style="font-size:1.6rem;font-weight:800;color:rgba(255,255,255,.7)">VISA</div>
+      </div>
+    </div>
+    <div style="padding:0 20px">
+      <div class="form-group">
+        <label class="form-label">Card Number</label>
+        <input class="form-input" type="text" maxlength="19" placeholder="1234 5678 9012 3456" oninput="formatCard(this)" onkeyup="updateCardPreview()">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label">Expiry Date</label>
+          <input class="form-input" type="text" placeholder="MM/YY" maxlength="5" id="cardExpInput" oninput="updateCardPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input class="form-input" type="password" placeholder="•••" maxlength="3">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cardholder Name</label>
+        <input class="form-input" type="text" placeholder="John Doe" id="cardNameInput" oninput="updateCardPreview()">
+      </div>
+      <button class="primary-btn" onclick="payNow()">Pay Now</button>
+    </div>
+  </div>
+
+  <!-- UPI -->
+  <div id="payUPI" style="display:none">
+    <div style="padding:0 20px 20px">
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px">Choose your preferred UPI app</p>
+      <div class="upi-grid">
+        <div class="upi-app" onclick="payNow()">
+          <div class="upi-logo" style="background:#1a73e8;color:#fff">G</div>
+          <div class="upi-name">Google Pay</div>
+          <div class="upi-id">via GPay</div>
+        </div>
+        <div class="upi-app" onclick="payNow()">
+          <div class="upi-logo" style="background:#5f259f;color:#fff">P</div>
+          <div class="upi-name">PhonePe</div>
+          <div class="upi-id">via PhonePe</div>
+        </div>
+        <div class="upi-app" onclick="payNow()">
+          <div class="upi-logo" style="background:#00b9f1;color:#fff">P</div>
+          <div class="upi-name">Paytm</div>
+          <div class="upi-id">via Paytm</div>
+        </div>
+        <div class="upi-app" onclick="payNow()">
+          <div class="upi-logo" style="background:#f26522;color:#fff">B</div>
+          <div class="upi-name">BHIM</div>
+          <div class="upi-id">via BHIM UPI</div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:20px">
+        <label class="form-label">Or enter UPI ID manually</label>
+        <div style="display:flex;gap:8px">
+          <input class="form-input" type="text" placeholder="yourname@upi" style="flex:1">
+          <button onclick="payNow()" style="padding:12px 20px;background:var(--green);color:#fff;border-radius:12px;font-weight:600;border:none;cursor:pointer">Pay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bn-item active" id="bn-home" onclick="goTo('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="bn-item" id="bn-groceries" onclick="goTo('groceries')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Groceries
+    </button>
+    <button class="bn-item" id="bn-cart" onclick="goTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Cart
+    </button>
+    <button class="bn-item" id="bn-settings" onclick="goTo('settings')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </button>
+  </div>
+</nav>
+
+<script>
+// ========== DATA ==========
+const PRODUCTS = {
+  groceries: {
+    Fruits: [
+      {id:'f1',name:'Red Apple',weight:'1 kg',price:120,img:'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&q=80'},
+      {id:'f2',name:'Banana',weight:'1 dozen',price:60,img:'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&q=80'},
+      {id:'f3',name:'Alphonso Mango',weight:'1 kg',price:200,img:'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&q=80'},
+      {id:'f4',name:'Strawberry',weight:'250g box',price:280,img:'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=400&q=80'},
+      {id:'f5',name:'Orange',weight:'1 kg',price:100,img:'https://images.unsplash.com/photo-1547514701-42782101795e?w=400&q=80'},
+      {id:'f6',name:'Green Grapes',weight:'500g',price:150,img:'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&q=80'},
+    ],
+    Vegetables: [
+      {id:'v1',name:'Tomato',weight:'1 kg',price:40,img:'https://images.unsplash.com/photo-1546470427-0d13b7942a50?w=400&q=80'},
+      {id:'v2',name:'Onion',weight:'1 kg',price:35,img:'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80'},
+      {id:'v3',name:'Potato',weight:'1 kg',price:30,img:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80'},
+      {id:'v4',name:'Spinach',weight:'1 bunch',price:25,img:'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80'},
+      {id:'v5',name:'Carrot',weight:'1 kg',price:50,img:'https://images.unsplash.com/photo-1447175008436-054170c2e979?w=400&q=80'},
+      {id:'v6',name:'Broccoli',weight:'1 piece',price:80,img:'https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=400&q=80'},
+    ],
+    Biscuits: [
+      {id:'b1',name:'Oreo Cookies',weight:'300g',price:40,img:'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&q=80'},
+      {id:'b2',name:'Digestive Biscuit',weight:'400g',price:65,img:'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=80'},
+      {id:'b3',name:'Bourbon',weight:'200g',price:30,img:'https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=400&q=80'},
+      {id:'b4',name:'Hide & Seek',weight:'200g',price:50,img:'https://images.unsplash.com/photo-1612201142855-7873c1d1e2f7?w=400&q=80'},
+      {id:'b5',name:'Good Day',weight:'250g',price:35,img:'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=400&q=80'},
+    ],
+    Drinks: [
+      {id:'d1',name:'Coca-Cola',weight:'330ml',price:45,img:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&q=80'},
+      {id:'d2',name:'Sprite',weight:'330ml',price:40,img:'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&q=80'},
+      {id:'d3',name:'Orange Juice',weight:'1 Litre',price:120,img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&q=80'},
+      {id:'d4',name:'Apple Juice',weight:'1 Litre',price:110,img:'https://images.unsplash.com/photo-1576673442511-7e39b6545c87?w=400&q=80'},
+      {id:'d5',name:'Mango Juice',weight:'1 Litre',price:95,img:'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400&q=80'},
+    ],
+    'Tea & Coffee': [
+      {id:'t1',name:'Darjeeling Tea',weight:'250g',price:250,img:'https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400&q=80'},
+      {id:'t2',name:'Green Tea',weight:'25 bags',price:180,img:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=80'},
+      {id:'t3',name:'Nescafe Gold',weight:'200g jar',price:320,img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80'},
+      {id:'t4',name:'Tata Tea Premium',weight:'500g',price:200,img:'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=400&q=80'},
+      {id:'t5',name:'Filter Coffee',weight:'500g',price:280,img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80'},
+    ],
+    Dairy: [
+      {id:'da1',name:'Fresh Milk',weight:'1 Litre',price:60,img:'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&q=80'},
+      {id:'da2',name:'Paneer',weight:'200g',price:120,img:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80'},
+      {id:'da3',name:'Curd',weight:'500g',price:50,img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80'},
+      {id:'da4',name:'Butter',weight:'100g',price:55,img:'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&q=80'},
+      {id:'da5',name:'Cheese Slices',weight:'200g',price:180,img:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80'},
+    ],
+  },
+  accessories: {
+    Necklaces: [
+      {id:'n1',name:'Gold Chain',weight:'18K Gold',price:2500,img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80'},
+      {id:'n2',name:'Pearl Necklace',weight:'Classic',price:3800,img:'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80'},
+      {id:'n3',name:'Silver Pendant',weight:'925 Silver',price:1800,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80'},
+      {id:'n4',name:'Diamond Necklace',weight:'0.5 Carat',price:15000,img:'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80'},
+      {id:'n5',name:'Beaded Necklace',weight:'Boho',price:1200,img:'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=400&q=80'},
+    ],
+    Watches: [
+      {id:'w1',name:'Classic Analog',weight:'40mm',price:3500,img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80'},
+      {id:'w2',name:'Smart Watch',weight:'Series 7',price:8500,img:'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80'},
+      {id:'w3',name:'Luxury Gold Watch',weight:'Premium',price:25000,img:'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&q=80'},
+      {id:'w4',name:'Sports Watch',weight:'Digital',price:4200,img:'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&q=80'},
+      {id:'w5',name:'Minimalist Watch',weight:'34mm',price:2800,img:'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&q=80'},
+    ],
+    Earrings: [
+      {id:'e1',name:'Gold Studs',weight:'14K Gold',price:1500,img:'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=400&q=80'},
+      {id:'e2',name:'Hoop Earrings',weight:'Silver',price:800,img:'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80'},
+      {id:'e3',name:'Drop Earrings',weight:'Elegant',price:1200,img:'https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80'},
+      {id:'e4',name:'Crystal Earrings',weight:'Swarovski',price:950,img:'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80'},
+    ],
+    Bracelets: [
+      {id:'br1',name:'Gold Bracelet',weight:'18K Gold',price:4500,img:'https://images.unsplash.com/photo-1573408301185-9519f94815fe?w=400&q=80'},
+      {id:'br2',name:'Silver Bangle',weight:'925 Silver',price:2200,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80'},
+      {id:'br3',name:'Charm Bracelet',weight:'Adjustable',price:1800,img:'https://images.unsplash.com/photo-1586798133507-c7c03f35d0a7?w=400&q=80'},
+      {id:'br4',name:'Leather Bracelet',weight:'Unisex',price:850,img:'https://images.unsplash.com/photo-1619119712580-bf8823e9ae5c?w=400&q=80'},
+    ],
+    Wallets: [
+      {id:'wa1',name:'Leather Bifold',weight:'Genuine Leather',price:1200,img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80'},
+      {id:'wa2',name:'Slim Card Holder',weight:'Minimalist',price:850,img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80'},
+      {id:'wa3',name:'Ladies Wallet',weight:'Multi-pocket',price:950,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&q=80'},
+      {id:'wa4',name:'RFID Wallet',weight:'Anti-theft',price:1500,img:'https://images.unsplash.com/photo-1627123424574-724758594785?w=400&q=80'},
+    ],
+  },
+  beauty: {
+    Cosmetics: [
+      {id:'c1',name:'Matte Lipstick',weight:'4g',price:450,img:'https://images.unsplash.com/photo-1586495777744-4e6232bf2e55?w=400&q=80'},
+      {id:'c2',name:'Foundation SPF',weight:'30ml',price:1200,img:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&q=80'},
+      {id:'c3',name:'Mascara',weight:'12ml',price:680,img:'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&q=80'},
+      {id:'c4',name:'Eyeshadow Palette',weight:'12 shades',price:1800,img:'https://images.unsplash.com/photo-1583241475880-083f84372725?w=400&q=80'},
+      {id:'c5',name:'Blush',weight:'6g',price:750,img:'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80'},
+      {id:'c6',name:'Concealer',weight:'5ml',price:950,img:'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80'},
+    ],
+    'Skin Care': [
+      {id:'sk1',name:'Moisturizer',weight:'50ml',price:680,img:'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80'},
+      {id:'sk2',name:'Sunscreen SPF 50',weight:'75ml',price:450,img:'https://images.unsplash.com/photo-1521490099-67c6cf51cf5f?w=400&q=80'},
+      {id:'sk3',name:'Vitamin C Serum',weight:'30ml',price:1200,img:'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?w=400&q=80'},
+      {id:'sk4',name:'Gentle Face Wash',weight:'100ml',price:280,img:'https://images.unsplash.com/photo-1556228852-80b6e5eeff06?w=400&q=80'},
+      {id:'sk5',name:'Toner',weight:'200ml',price:380,img:'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&q=80'},
+    ],
+    'Hair Care': [
+      {id:'h1',name:'Argan Shampoo',weight:'300ml',price:350,img:'https://images.unsplash.com/photo-1631390180-1b17e9d81175?w=400&q=80'},
+      {id:'h2',name:'Conditioner',weight:'300ml',price:320,img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80'},
+      {id:'h3',name:'Deep Hair Mask',weight:'200g',price:580,img:'https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=400&q=80'},
+      {id:'h4',name:'Coconut Hair Oil',weight:'200ml',price:280,img:'https://images.unsplash.com/photo-1617390604299-88e3c8b50568?w=400&q=80'},
+    ],
+    'Bath & Body': [
+      {id:'bb1',name:'Body Lotion',weight:'250ml',price:380,img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80'},
+      {id:'bb2',name:'Body Wash',weight:'300ml',price:320,img:'https://images.unsplash.com/photo-1556228841-a3c527ebefe5?w=400&q=80'},
+      {id:'bb3',name:'Exfoliating Scrub',weight:'200g',price:450,img:'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=400&q=80'},
+      {id:'bb4',name:'Luxury Soap Set',weight:'3 bars',price:250,img:'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&q=80'},
+    ],
+  }
+};
+
+// Offers data
+const OFFERS = [
+  {...PRODUCTS.groceries.Fruits[0], discount:20, category:'Groceries'},
+  {...PRODUCTS.groceries.Vegetables[0], discount:30, category:'Groceries'},
+  {...PRODUCTS.accessories.Watches[0], discount:15, category:'Accessories'},
+  {...PRODUCTS.beauty.Cosmetics[0], discount:25, category:'Beauty'},
+  {...PRODUCTS.groceries['Tea & Coffee'][2], discount:10, category:'Groceries'},
+  {...PRODUCTS.accessories.Wallets[0], discount:20, category:'Accessories'},
+  {...PRODUCTS.beauty['Skin Care'][0], discount:30, category:'Beauty'},
+  {...PRODUCTS.groceries.Fruits[3], discount:15, category:'Groceries'},
+];
+
+// ========== STATE ==========
+let cart = JSON.parse(localStorage.getItem('rc-cart') || '[]');
+let walletBalance = parseFloat(localStorage.getItem('rc-wallet') || '0');
+let currentPage = 'login';
+let currentGroceryTab = 'Fruits';
+let currentAccessoryTab = 'Necklaces';
+let currentBeautyTab = 'Cosmetics';
+let sliderIndex = 0;
+let otpInterval = null;
+let cdInterval = null;
+let loggedIn = localStorage.getItem('rc-loggedin') === '1';
+
+// ========== NAVIGATION ==========
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  window.scrollTo(0,0);
+  currentPage = page;
+  updateBottomNav(page);
+  updateAllBadges();
+  if(page==='cart') renderCart();
+  if(page==='groceries') renderGroceries(currentGroceryTab);
+  if(page==='accessories') renderAccessories(currentAccessoryTab);
+  if(page==='beauty') renderBeauty(currentBeautyTab);
+  if(page==='offers') renderOffers();
+  if(page==='settings') loadSettings();
+  if(page==='pay') updateWalletDisplay();
+}
+
+function updateBottomNav(page){
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const bn = document.getElementById('bn-'+page);
+  if(bn) bn.classList.add('active');
+}
+
+// ========== LOGIN ==========
+function switchLoginTab(tab, btn){
+  document.querySelectorAll('.tab-switch button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('signinForm').style.display = tab==='signin'?'block':'none';
+  document.getElementById('signupForm').style.display = tab==='signup'?'block':'none';
+  document.getElementById('forgotForm').style.display = 'none';
+}
+function showForgot(){
+  document.getElementById('signinForm').style.display='none';
+  document.getElementById('signupForm').style.display='none';
+  document.getElementById('forgotForm').style.display='block';
+}
+function showSignin(){
+  document.getElementById('signinForm').style.display='block';
+  document.getElementById('signupForm').style.display='none';
+  document.getElementById('forgotForm').style.display='none';
+}
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if(!email || !pass){ showToast('Please fill in all fields'); return; }
+  localStorage.setItem('rc-loggedin','1');
+  localStorage.setItem('rc-user-email', email);
+  localStorage.setItem('rc-user-name', email.split('@')[0] || 'User');
+  startOtpTimer();
+  goTo('otp');
+}
+function doSignup(){
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  if(!name || !email){ showToast('Please fill in all fields'); return; }
+  localStorage.setItem('rc-loggedin','1');
+  localStorage.setItem('rc-user-name', name);
+  localStorage.setItem('rc-user-email', email);
+  startOtpTimer();
+  goTo('otp');
+}
+function doReset(){
+  showToast('Reset link sent to your email!');
+  setTimeout(()=>showSignin(),1500);
+}
+function logout(){
+  localStorage.setItem('rc-loggedin','0');
+  goTo('login');
+}
+
+// ========== OTP ==========
+let otpSeconds = 30;
+function startOtpTimer(){
+  otpSeconds = 30;
+  clearInterval(otpInterval);
+  otpInterval = setInterval(()=>{
+    otpSeconds--;
+    const el = document.getElementById('otpTimer');
+    if(el) el.textContent = otpSeconds;
+    if(otpSeconds<=0){ clearInterval(otpInterval); }
+  },1000);
+}
+function otpNext(input, idx){
+  const boxes = document.querySelectorAll('.otp-box');
+  if(input.value.length===1 && idx<5) boxes[idx+1].focus();
+  // auto-verify
+  const val = Array.from(boxes).map(b=>b.value).join('');
+  if(val.length===6) verifyOtp();
+}
+function verifyOtp(){
+  localStorage.setItem('rc-loggedin','1');
+  clearInterval(otpInterval);
+  renderFreshArrivals();
+  renderGroceryTabs();
+  renderAccessoryTabs();
+  renderBeautyTabs();
+  goTo('home');
+}
+function resendOtp(){
+  startOtpTimer();
+  showToast('OTP resent successfully');
+}
+
+// ========== SLIDER ==========
+function goSlide(idx){
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  slides[sliderIndex].classList.remove('active');
+  dots[sliderIndex].classList.remove('active');
+  sliderIndex = idx;
+  slides[sliderIndex].classList.add('active');
+  dots[sliderIndex].classList.add('active');
+}
+setInterval(()=>{ goSlide((sliderIndex+1)%3); },4000);
+
+// ========== FRESH ARRIVALS ==========
+function renderFreshArrivals(){
+  const grid = document.getElementById('freshArrivalsGrid');
+  if(!grid) return;
+  const items = [...PRODUCTS.groceries.Fruits.slice(0,3), ...PRODUCTS.groceries.Vegetables.slice(0,2), ...PRODUCTS.groceries['Tea & Coffee'].slice(0,1)];
+  grid.innerHTML = items.map(p=>productCardHTML(p,true)).join('');
+}
+
+// ========== PRODUCT CARDS ==========
+function productCardHTML(p, mini=false){
+  const inCart = cart.find(c=>c.id===p.id);
+  const qty = inCart ? inCart.qty : 0;
+  return `<div class="product-card">
+    <div class="product-img-wrap">
+      <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80'">
+    </div>
+    <div class="product-info">
+      <div class="product-name" title="${p.name}">${p.name}</div>
+      <div class="product-weight">${p.weight}</div>
+      <div class="product-footer">
+        <div class="product-price">₹${p.price}</div>
+        <div id="ctrl-${p.id}">
+          ${qty===0
+            ? `<button class="add-btn" onclick="addToCart('${p.id}')">Add</button>`
+            : `<div class="qty-ctrl">
+                <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+                <span class="qty-num">${qty}</span>
+                <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+               </div>`
+          }
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function findProduct(id){
+  for(const cat of Object.values(PRODUCTS)){
+    for(const sub of Object.values(cat)){
+      const p = sub.find(x=>x.id===id);
+      if(p) return p;
+    }
+  }
+  // check offers
+  const o = OFFERS.find(x=>x.id===id);
+  if(o) return o;
+  return null;
+}
+
+function addToCart(id){
+  const p = findProduct(id);
+  if(!p) return;
+  const existing = cart.find(c=>c.id===id);
+  if(existing){ existing.qty++; }
+  else { cart.push({...p, qty:1}); }
+  saveCart();
+  refreshCtrl(id);
+  showToast(`${p.name} added to cart`);
+}
+function changeQty(id, delta){
+  const idx = cart.findIndex(c=>c.id===id);
+  if(idx===-1) return;
+  cart[idx].qty += delta;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
+  saveCart();
+  refreshCtrl(id);
+  if(currentPage==='cart') renderCart();
+}
+function saveCart(){
+  localStorage.setItem('rc-cart', JSON.stringify(cart));
+  updateAllBadges();
+}
+function refreshCtrl(id){
+  document.querySelectorAll(`#ctrl-${id}`).forEach(el=>{
+    const inCart = cart.find(c=>c.id===id);
+    const qty = inCart ? inCart.qty : 0;
+    if(qty===0){
+      el.innerHTML = `<button class="add-btn" onclick="addToCart('${id}')">Add</button>`;
+    } else {
+      el.innerHTML = `<div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty('${id}',-1)">−</button>
+        <span class="qty-num">${qty}</span>
+        <button class="qty-btn" onclick="changeQty('${id}',1)">+</button>
+      </div>`;
+    }
+  });
+}
+function updateAllBadges(){
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  document.querySelectorAll('[id^="cartBadge"]').forEach(b=>b.textContent=total);
+}
+
+// ========== GROCERIES ==========
+function renderGroceryTabs(){
+  const bar = document.getElementById('groceryTabs');
+  if(!bar) return;
+  bar.innerHTML = Object.keys(PRODUCTS.groceries).map(tab=>`
+    <button class="tab ${tab===currentGroceryTab?'active':''}" onclick="switchGroceryTab('${tab}')">${tab}</button>
+  `).join('');
+}
+function switchGroceryTab(tab){
+  currentGroceryTab = tab;
+  renderGroceryTabs();
+  renderGroceries(tab);
+}
+function renderGroceries(tab){
+  const grid = document.getElementById('groceryGrid');
+  if(!grid) return;
+  grid.innerHTML = (PRODUCTS.groceries[tab]||[]).map(p=>productCardHTML(p)).join('');
+}
+
+// ========== ACCESSORIES ==========
+function renderAccessoryTabs(){
+  const bar = document.getElementById('accessoryTabs');
+  if(!bar) return;
+  bar.innerHTML = Object.keys(PRODUCTS.accessories).map(tab=>`
+    <button class="tab ${tab===currentAccessoryTab?'active':''}" onclick="switchAccessoryTab('${tab}')">${tab}</button>
+  `).join('');
+}
+function switchAccessoryTab(tab){
+  currentAccessoryTab = tab;
+  renderAccessoryTabs();
+  renderAccessories(tab);
+}
+function renderAccessories(tab){
+  const grid = document.getElementById('accessoryGrid');
+  if(!grid) return;
+  grid.innerHTML = (PRODUCTS.accessories[tab]||[]).map(p=>productCardHTML(p)).join('');
+}
+
+// ========== BEAUTY ==========
+function renderBeautyTabs(){
+  const bar = document.getElementById('beautyTabs');
+  if(!bar) return;
+  bar.innerHTML = Object.keys(PRODUCTS.beauty).map(tab=>`
+    <button class="tab ${tab===currentBeautyTab?'active':''}" onclick="switchBeautyTab('${tab}')">${tab}</button>
+  `).join('');
+}
+function switchBeautyTab(tab){
+  currentBeautyTab = tab;
+  renderBeautyTabs();
+  renderBeauty(tab);
+}
+function renderBeauty(tab){
+  const grid = document.getElementById('beautyGrid');
+  if(!grid) return;
+  grid.innerHTML = (PRODUCTS.beauty[tab]||[]).map(p=>productCardHTML(p)).join('');
+}
+
+// ========== OFFERS ==========
+function renderOffers(){
+  const grid = document.getElementById('offersGrid');
+  if(!grid) return;
+  grid.innerHTML = OFFERS.map(p=>{
+    const orig = Math.round(p.price / (1 - p.discount/100));
+    const inCart = cart.find(c=>c.id===p.id);
+    const qty = inCart ? inCart.qty : 0;
+    return `<div class="product-card">
+      <div class="product-img-wrap">
+        <div class="offer-badge">-${p.discount}%</div>
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80'">
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-weight">${p.weight}</div>
+        <div class="product-footer">
+          <div>
+            <span class="original-price">₹${orig}</span>
+            <span class="product-price" style="display:inline">₹${p.price}</span>
+          </div>
+          <div id="ctrl-${p.id}">
+            ${qty===0
+              ? `<button class="add-btn" onclick="addToCart('${p.id}')">Add</button>`
+              : `<div class="qty-ctrl">
+                  <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+                  <span class="qty-num">${qty}</span>
+                  <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+                 </div>`
+            }
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  startCountdown();
+}
+
+// ========== COUNTDOWN ==========
+let cdTime = {h:5,m:23,s:47};
+function startCountdown(){
+  clearInterval(cdInterval);
+  cdInterval = setInterval(()=>{
+    cdTime.s--;
+    if(cdTime.s<0){cdTime.s=59;cdTime.m--;}
+    if(cdTime.m<0){cdTime.m=59;cdTime.h--;}
+    if(cdTime.h<0){cdTime={h:5,m:59,s:59};}
+    const hEl=document.getElementById('cd-h'),mEl=document.getElementById('cd-m'),sEl=document.getElementById('cd-s');
+    if(hEl) hEl.textContent=String(cdTime.h).padStart(2,'0');
+    if(mEl) mEl.textContent=String(cdTime.m).padStart(2,'0');
+    if(sEl) sEl.textContent=String(cdTime.s).padStart(2,'0');
+  },1000);
+}
+
+// ========== CART ==========
+function renderCart(){
+  const content = document.getElementById('cartContent');
+  const summary = document.getElementById('cartSummary');
+  if(!content) return;
+  if(cart.length===0){
+    content.innerHTML=`<div class="cart-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">Your cart is empty</h3>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:20px">Add some items to get started</p>
+      <button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="goTo('home')">Start Shopping</button>
+    </div>`;
+    summary.innerHTML='';
+    return;
+  }
+  content.innerHTML = cart.map(item=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80'">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-weight">${item.weight}</div>
+        <div class="cart-item-price">₹${item.price} × ${item.qty} = ₹${item.price * item.qty}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+        <button class="cart-item-remove" onclick="removeItem('${item.id}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  const subtotal = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const tax = Math.round(subtotal * 0.18);
+  const delivery = subtotal >= 500 ? 0 : 50;
+  const total = subtotal + tax + delivery;
+
+  summary.innerHTML = `
+    <div class="section" style="padding-top:0">
+      <label class="form-label" style="margin-bottom:8px;display:block">Promo Code</label>
+    </div>
+    <div class="promo-input">
+      <input type="text" placeholder="Enter promo code" id="promoInput">
+      <button onclick="applyPromo()">Apply</button>
+    </div>
+    <div class="order-summary">
+      <div class="summary-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
+      <div class="summary-row"><span>GST (18%)</span><span>₹${tax}</span></div>
+      <div class="summary-row"><span>Delivery ${delivery===0?'<span style="color:var(--green);font-size:.78rem">(Free!)</span>':''}</span><span>₹${delivery}</span></div>
+      <div class="summary-row total"><span>Total</span><span>₹${total}</span></div>
+    </div>
+    <button class="checkout-btn" onclick="goTo('pay')">Proceed to Payment — ₹${total}</button>
+  `;
+}
+function removeItem(id){
+  cart = cart.filter(c=>c.id!==id);
+  saveCart();
+  renderCart();
+}
+function applyPromo(){
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  if(code==='REAL10') showToast('10% discount applied!');
+  else showToast('Invalid promo code');
+}
+
+// ========== SETTINGS ==========
+function loadSettings(){
+  const dark = localStorage.getItem('rc-dark')==='1';
+  document.getElementById('darkToggle').checked = dark;
+  document.getElementById('langSelect').value = localStorage.getItem('rc-lang')||'en';
+  document.getElementById('currSelect').value = localStorage.getItem('rc-currency')||'INR';
+  const name = localStorage.getItem('rc-user-name')||'User';
+  const email = localStorage.getItem('rc-user-email')||'user@example.com';
+  document.getElementById('userAvatar').textContent = name.slice(0,2).toUpperCase();
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userEmail').textContent = email;
+}
+function toggleDark(el){
+  if(el.checked){ document.documentElement.classList.add('dark'); localStorage.setItem('rc-dark','1'); }
+  else { document.documentElement.classList.remove('dark'); localStorage.setItem('rc-dark','0'); }
+}
+function saveSetting(key,val){ localStorage.setItem('rc-'+key, val); }
+function saveAllSettings(){
+  showToast('Settings saved successfully');
+}
+
+// ========== PAY ==========
+function switchPayTab(tab, btn){
+  document.querySelectorAll('.pay-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('payWallet').style.display = tab==='wallet'?'block':'none';
+  document.getElementById('payCard').style.display = tab==='card'?'block':'none';
+  document.getElementById('payUPI').style.display = tab==='upi'?'block':'none';
+}
+function updateWalletDisplay(){
+  walletBalance = parseFloat(localStorage.getItem('rc-wallet')||'0');
+  const el = document.getElementById('walletBalance');
+  if(el) el.textContent = '₹ '+walletBalance.toFixed(2);
+}
+function setAmount(amt){
+  document.getElementById('addMoneyInput').value = amt;
+}
+function addMoney(){
+  const amt = parseFloat(document.getElementById('addMoneyInput').value||'0');
+  if(amt<=0){ showToast('Please enter a valid amount'); return; }
+  walletBalance += amt;
+  localStorage.setItem('rc-wallet', walletBalance.toString());
+  updateWalletDisplay();
+  showToast('₹'+amt+' added to wallet!');
+  document.getElementById('addMoneyInput').value='';
+}
+function payNow(){
+  cart = [];
+  saveCart();
+  document.getElementById('successModal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('successModal').classList.remove('show');
+  goTo('home');
+}
+function formatCard(input){
+  let v = input.value.replace(/\D/g,'').slice(0,16);
+  v = v.replace(/(.{4})/g,'$1 ').trim();
+  input.value = v;
+  updateCardPreview();
+}
+function updateCardPreview(){
+  const numInput = document.querySelector('#payCard input[type="text"]');
+  const num = numInput ? numInput.value.replace(/\d/g,'•').padEnd(19,'•') : '•••• •••• •••• ••••';
+  const cardNum = document.getElementById('cardNumDisplay');
+  const cardName = document.getElementById('cardNameDisplay');
+  const cardExp = document.getElementById('cardExpDisplay');
+  const nameIn = document.getElementById('cardNameInput');
+  const expIn = document.getElementById('cardExpInput');
+  if(cardNum) cardNum.textContent = numInput ? numInput.value || '•••• •••• •••• ••••' : '•••• •••• •••• ••••';
+  if(cardName && nameIn) cardName.textContent = nameIn.value||'Cardholder Name';
+  if(cardExp && expIn) cardExp.textContent = expIn.value||'MM/YY';
+}
+
+// ========== SEARCH ==========
+function searchProducts(query){
+  const results = document.getElementById('searchResults');
+  const grid = document.getElementById('searchGrid');
+  const homeContent = document.getElementById('homeContent');
+  const freshSection = homeContent ? homeContent.nextElementSibling : null;
+  if(!query.trim()){
+    results.style.display='none';
+    return;
+  }
+  const q = query.toLowerCase();
+  const found = [];
+  for(const cat of Object.values(PRODUCTS)){
+    for(const sub of Object.values(cat)){
+      for(const p of sub){
+        if(p.name.toLowerCase().includes(q)) found.push(p);
+      }
+    }
+  }
+  results.style.display = 'block';
+  grid.innerHTML = found.length ? found.map(p=>productCardHTML(p)).join('') : '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:32px">No products found</p>';
+}
+
+// ========== TOAST ==========
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ========== INIT ==========
+(function init(){
+  // Restore dark mode
+  if(localStorage.getItem('rc-dark')==='1') document.documentElement.classList.add('dark');
+  // Restore cart
+  cart = JSON.parse(localStorage.getItem('rc-cart')||'[]');
+  updateAllBadges();
+  // If already logged in, skip to home
+  if(loggedIn){
+    renderFreshArrivals();
+    renderGroceryTabs();
+    renderAccessoryTabs();
+    renderBeautyTabs();
+    goTo('home');
+  }
+})();
+</script>
+</body>
+</html>
